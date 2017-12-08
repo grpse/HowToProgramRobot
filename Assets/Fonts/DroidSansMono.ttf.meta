@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 4be09d67dab6bf54182a43f023f82134
+timeCreated: 1512670667
+licenseType: Free
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -1
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Droid Sans Mono
+  fontNames:
+  - Droid Sans Mono
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 2
+  ascentCalculationMode: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
