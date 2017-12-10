@@ -31,14 +31,14 @@ public class GameLevelMenu : MonoBehaviour {
 
     public void ShowWithNextLevelButton()
     {
-        mMainText.text = "Congrats!! :D";
+        mMainText.text = "Nível concluído com sucesso!";
         mNextLevelButton.interactable = true;
         AnimateToShow();
     }
 
     public void ShowGameOver()
     {
-        mMainText.text = "Game Over :/";
+        mMainText.text = "Faltaram instruções para completar a fase.";
         mNextLevelButton.interactable = false;
         AnimateToShow();
     }

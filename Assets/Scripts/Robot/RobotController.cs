@@ -56,6 +56,45 @@ public class RobotController : MonoBehaviour {
         }
     }
 
+    void Turn() {
+        IRobotCommand turn = new TurnCommand();
+        mCommandReceiver.receiveCommand(turn);        
+    }
+
+    void Walk(float time) {
+        IRobotCommand walk = new WalkCommand();
+        walk.passParameters(time);
+        mCommandReceiver.receiveCommand(walk);        
+    }
+
+    void Jump() {
+        IRobotCommand jump = new JumpCommand();
+        mCommandReceiver.receiveCommand(jump);
+    }
+
+    void JumpWithDifferentForce(float forcemultiplier) {
+        IRobotCommand jump = new JumpCommand();
+        jump.passParameters(forcemultiplier);
+        mCommandReceiver.receiveCommand(jump);
+    }
+
+    void DoubleJump() {
+        IRobotCommand djump = new DoubleJumpCommand();
+        mCommandReceiver.receiveCommand(djump);
+    }
+
+    void Execute() {
+        GameExecutor.GetInstance().executeCommands();
+    }
+
+    void Pause() {
+        GameExecutor.GetInstance().pauseCommands();
+    }
+
+    void Stop() {
+        GameExecutor.GetInstance().stopExecuting();
+    }
+
     [ContextMenu("Turn")]
     void Test_Turn()
     {
@@ -94,11 +133,25 @@ public class RobotController : MonoBehaviour {
         mCommandReceiver.receiveCommand(jump);
     }
 
+    [ContextMenu("Jump Force")]
+    void Test_Jump_Force()
+    {
+        IRobotCommand jump = new JumpCommand();
+        jump.passParameters(2.0f);
+        mCommandReceiver.receiveCommand(jump);
+    }
+
     [ContextMenu("Double Jump")]
     void Test_DoubleJump()
     {
         IRobotCommand djump = new DoubleJumpCommand();
         mCommandReceiver.receiveCommand(djump);
+    }
+
+    [ContextMenu("Test Jump + DoubleJump")]
+    void Test_Jump_p_DoubleJump() {
+        mCommandReceiver.receiveCommand(new JumpCommand());
+        mCommandReceiver.receiveCommand(new DoubleJumpCommand());
     }
 
     [ContextMenu("Execute Command Queue")]

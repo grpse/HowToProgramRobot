@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Runtime.InteropServices;
 
 public class GameLevelDone : MonoBehaviour {
 
@@ -13,6 +14,9 @@ public class GameLevelDone : MonoBehaviour {
     {
         return mInstance;
     }
+
+    [DllImport("__Internal")]
+    private static extern void ExecutionFinished(bool completed);
 
     public void Awake()
     {
@@ -33,10 +37,12 @@ public class GameLevelDone : MonoBehaviour {
         if (mCompleted)
         {
             mGameLevelMenu.ShowWithNextLevelButton();
+            ExecutionFinished(mCompleted);
         }
         else
         {
             mGameLevelMenu.ShowGameOver();
+            ExecutionFinished(mCompleted);
         }
     }
 }

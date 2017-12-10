@@ -54,6 +54,9 @@ public class GameData : MonoBehaviour {
 
     private void Awake()
     {
+        #if !UNITY_EDITOR && UNITY_WEBGL
+            WebGLInput.captureAllKeyboardInput = false;
+        #endif
         mInstance = this;
         GameObject.DontDestroyOnLoad(this);
     }

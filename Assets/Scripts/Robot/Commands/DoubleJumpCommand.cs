@@ -9,6 +9,8 @@ public class DoubleJumpCommand : IRobotCommand
     private Animator mRobotAnimator;
     private GameObject mRobotObject;
     private float mAnimationDuration = 1f;
+    private float mChunchuCounter = 2f;
+    private bool mIsOnAir = false;
     private Vector3 mImpulseVector;
     private Rigidbody2D mRobotBody;
     private RobotController mRobotController;
@@ -34,7 +36,7 @@ public class DoubleJumpCommand : IRobotCommand
 
     public bool isExecuting()
     {
-        return mAnimationDuration > 0;
+        return mAnimationDuration > 0 && mIsOnAir;
     }
 
     public void passParameters(params object[] args)
@@ -44,8 +46,9 @@ public class DoubleJumpCommand : IRobotCommand
 
     public void run()
     {
-        Debug.Log("Going to perform double jumpt...");
-        mImpulseVector = new Vector3(mRobotObject.transform.localScale.x * 0.01f, 0.65f, 0f);
+        float direction = mRobotObject.transform.localScale.x;
+        mIsOnAir = true;
+        mImpulseVector = new Vector3(direction, 10f, 0f);
         mRobotBody.AddForce(mImpulseVector, ForceMode2D.Impulse);
         mRobotController.setHashState(GameConsts.kDoubleJumpAnimationHash);
     }
@@ -54,9 +57,20 @@ public class DoubleJumpCommand : IRobotCommand
     {
         mAnimationDuration -= Time.deltaTime;
 
-        if (mAnimationDuration <= 0f)
+        if (mAnimationDuration <= 0)
         {
             mRobotController.setHashState(GameConsts.kJumpAnimationHash);
+        }
+
+        if (mIsOnAir && mChunchuCounter > 0)
+        {
+            mIsOnAir = mRobotController.getRobotState() != RobotState.OnFloor;
+            mChunchuCounter -= Time.deltaTime;
+        }
+        else
+        {
+            mIsOnAir = false;
+            //mRobotController.setHashState(GameConsts.kIdleAnimationHash);
         }
     }
 }

@@ -92,12 +92,19 @@ public class GameExecutor : MonoBehaviour {
                     if (timeToExecuteInvades <= 0 && !betweenCommandExecuted)
                     {
                         invades.run();
+                        betweenCommandExecuted = true;
                     }
 
                     timeToExecuteInvades -= Time.deltaTime;
                 }
 
                 command.update();
+                yield return null;
+            }
+
+            while(invades.isExecuting()) {
+                invades.update();
+
                 yield return null;
             }
 

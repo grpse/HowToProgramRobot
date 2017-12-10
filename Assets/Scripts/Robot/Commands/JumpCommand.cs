@@ -12,6 +12,7 @@ public class JumpCommand : IRobotCommand
     private float mJumpDirection = 0;
     private float mJumpHeight = 5;
     private bool isOnAir = false;
+    private float mJumpForceMultiplier = 1f;
 
     private float mChunchuCounter = 1f; // 1s passed cancel the animation
 
@@ -37,7 +38,8 @@ public class JumpCommand : IRobotCommand
 
     public void passParameters(params object[] args)
     {
-        
+        if (args.Length > 0)
+            mJumpForceMultiplier = (float)args[0];
     }
 
     public void run()
@@ -46,10 +48,11 @@ public class JumpCommand : IRobotCommand
         if (mRobotController.getRobotState() == RobotState.OnFloor)
         {
             isOnAir = true;
+            mChunchuCounter *= mJumpForceMultiplier;
             mRobotController.setHashState(GameConsts.kJumpAnimationHash);
             mJumpDirection = mRobotObject.transform.localScale.x;
-            mJumpDirectionVector.x *= mJumpDirection;
-            mJumpDirectionVector.y *= mJumpHeight;
+            mJumpDirectionVector.x *= mJumpDirection * mJumpForceMultiplier;
+            mJumpDirectionVector.y *= mJumpHeight * mJumpForceMultiplier;
             mRobotBody = mRobotObject.GetComponent<Rigidbody2D>();
             mRobotBody.AddForce(mJumpDirectionVector, ForceMode2D.Impulse);
         }
